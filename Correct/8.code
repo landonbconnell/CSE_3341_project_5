@@ -1,0 +1,17 @@
+procedure t8 is
+	procedure A(r) is
+		object n;
+		if r < 1 then
+			out(r);
+		else
+			n = new object(1);
+			n[0] = r-1;
+			begin A(n);
+		end
+	end
+	object a;
+begin
+	a = new object(1);
+	a[0] = 5;
+	begin A(a);
+end

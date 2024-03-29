@@ -1,0 +1,22 @@
+procedure t9 is
+	procedure A(a, b) is
+		object n;
+		a[0] = a[0]+b[0];
+		b : n;
+	end
+	procedure S(a, b) is
+		object n;
+		a[0] = a[0]-b[0];
+		begin A(a, b);
+		b : n;
+	end
+	object x;
+	object y;
+begin
+	x = new object(1);
+	x[0] = 1;
+	y = new object(1);
+	y = 1+x;
+	begin S(x, y);
+	out(x);
+end

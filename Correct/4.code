@@ -1,0 +1,16 @@
+procedure t4 is
+	object a;
+	object b;
+	object c;
+	procedure A(x) is
+		b : x;
+		c : x;
+		out(x[0]);
+	end
+begin
+	a = new object(1);
+	b = new object(1);
+	c = new object(1);
+	a[0] = 99;
+	begin A(a);
+end

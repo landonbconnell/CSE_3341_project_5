@@ -1,0 +1,19 @@
+procedure t5 is
+	procedure A(x) is
+		object y;
+		y = new object(1); 
+		y[0] = 8; 
+		out(x); 
+		x : y; 
+	end
+	integer m;
+	integer n;
+	object z;
+begin
+	m = 10;
+	n = 5;
+	z = new object(1);
+	z[0] = m+n;
+	begin A(z);
+	out(m);
+end

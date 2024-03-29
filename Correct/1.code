@@ -1,0 +1,6 @@
+procedure t1 is
+	object y;
+begin
+	y = new object(1);
+	y[0] = 10;
+end
