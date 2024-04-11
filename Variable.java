@@ -15,4 +15,14 @@ public class Variable {
         copy.obj_value = this.obj_value;
         return copy;
     }
+
+    public void incrementReferenceCount() {
+        if (this.obj_value != null && ++this.obj_value[this.obj_value.length - 1] == 1)
+            Executor.increaseNumObjects();
+    }
+
+    public void decrementReferenceCount() {
+        if (this.obj_value != null && --this.obj_value[this.obj_value.length - 1] == 0)
+            Executor.decreaseNumObjects();
+    }
 }

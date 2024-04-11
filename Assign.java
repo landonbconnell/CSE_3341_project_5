@@ -115,8 +115,9 @@ public class Assign {
                     System.out.println("ERROR: cannot assign an object to a variable of type 'integer'.");
                     System.exit(0);
                 }
-
-                variable1.obj_value = new int[expr1.execute()];
+                
+                variable1.obj_value = new int[expr1.execute() + 1];
+                variable1.incrementReferenceCount();
                 
             // id = <expr>;
             } else {
@@ -167,7 +168,9 @@ public class Assign {
                 System.exit(0);
             }
 
+            variable1.decrementReferenceCount();
             variable1.obj_value = variable2.obj_value;
+            variable1.incrementReferenceCount();
         }
     }
 }

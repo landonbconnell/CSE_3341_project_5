@@ -14,6 +14,7 @@ public class Executor {
     public static Map<String, Function> functions;
     public static Deque<Deque<Map<String, Variable>>> frames;
     public static Deque<Deque<Scope>> scopeTypes;
+    public static int numObjects;
     
     public Executor(String inputFilePath) {
         input = new Scanner(inputFilePath);
@@ -86,12 +87,27 @@ public class Executor {
         Variable variable = null;
         Iterator<Map<String, Variable>> it = frames.getFirst().iterator();
         
+        // Search current scope
         while (it.hasNext()) {
             Map<String, Variable> currentScope = it.next();
 
             if (currentScope.containsKey(identifier)) {
                 variable = currentScope.get(identifier);
                 break;
+            }
+        }
+
+        // Seach global scope
+        if (variable == null) {
+            it = frames.getLast().iterator();
+        
+            while (it.hasNext()) {
+                Map<String, Variable> globalScope = it.next();
+
+                if (globalScope.containsKey(identifier)) {
+                    variable = globalScope.get(identifier);
+                    break;
+                }
             }
         }
 
@@ -126,9 +142,19 @@ public class Executor {
     }
 
     /**
-     * @returns a Scope enum that tells what the current scope type is (global, local, loop, or if-statement)
+     * @return a Scope enum that tells what the current scope type is (global, local, loop, or if-statement)
      */
     public static Scope currentScopeType() {
         return scopeTypes.getFirst().peekFirst();
+    }
+
+    public static void increaseNumObjects() {
+        numObjects++;
+        System.out.println("gc:" + numObjects);
+    }
+
+    public static void decreaseNumObjects() {
+        numObjects--;
+        System.out.println("gc:" + numObjects);
     }
 }

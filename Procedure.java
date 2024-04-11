@@ -62,5 +62,9 @@ public class Procedure {
         stmt_seq.execute();
 
         Executor.popFrame();
+
+        while (Executor.numObjects > 0) {
+            Executor.decreaseNumObjects();
+        }
     }
 }

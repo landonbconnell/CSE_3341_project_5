@@ -1,8 +1,11 @@
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Parses the <call> non-terminal in the Core context-free-grammar, which is defined as:
@@ -51,13 +54,23 @@ public class Call {
         frame.add(new HashMap<>());
 
         for (int i = 0; i < informals.size(); i++) {
-            frame.getFirst().put(formals.get(i), Executor.getVariable(informals.get(i)).getCopy());
+            Variable variable = Executor.getVariable(informals.get(i));
+            frame.getFirst().put(formals.get(i), variable.getCopy());
+            variable.incrementReferenceCount();
         }
 
         Executor.pushFrame(frame);
         Executor.pushScope(Scope.LOCAL);
 
         function.execute();
+
+        Map<String, Variable> variables = Executor.frames.peek().peekLast(); // params
+        variables.putAll(Executor.frames.peek().peekFirst()); // local variables
+
+        Iterator<Entry<String, Variable>> it = variables.entrySet().iterator();
+        while (it.hasNext()) {
+            it.next().getValue().decrementReferenceCount();
+        }
 
         Executor.popFrame();
     }
